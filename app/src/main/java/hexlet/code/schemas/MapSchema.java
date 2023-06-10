@@ -3,9 +3,9 @@ package hexlet.code.schemas;
 import java.util.Map;
 import java.util.function.Predicate;
 
-public class MapSchema extends BaseSchema {
-    Predicate<Object> currentSizePredicate;
-    Predicate<Object> currentShapePredicate;
+public final class MapSchema extends BaseSchema {
+    private Predicate<Object> currentSizePredicate;
+    private Predicate<Object> currentShapePredicate;
     {
         init = o -> o == null || o instanceof Map<?, ?>;
         addRequirement(init);

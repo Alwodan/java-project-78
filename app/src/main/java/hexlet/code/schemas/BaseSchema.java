@@ -10,7 +10,7 @@ public abstract class BaseSchema {
 
     abstract BaseSchema required();
 
-    public boolean isValid(Object obj) {
+    public final boolean isValid(Object obj) {
         for (Predicate<Object> req : requirements) {
             if (!req.test(obj)) {
                 return false;
@@ -19,15 +19,15 @@ public abstract class BaseSchema {
         return true;
     }
 
-    protected void addRequirement(Predicate<Object> req) {
+    protected final void addRequirement(Predicate<Object> req) {
         requirements.add(req);
     }
 
-    protected void removeInitReq() {
+    protected final void removeInitReq() {
         requirements.remove(init);
     }
 
-    protected void removeSpecifiedReq(Predicate<Object> req) {
+    protected final void removeSpecifiedReq(Predicate<Object> req) {
         requirements.remove(req);
     }
 }

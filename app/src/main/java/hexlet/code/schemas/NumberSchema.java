@@ -2,7 +2,7 @@ package hexlet.code.schemas;
 
 import java.util.function.Predicate;
 
-public class NumberSchema extends BaseSchema {
+public final class NumberSchema extends BaseSchema {
     {
         init = o -> o == null || o instanceof Number;
         addRequirement(init);
