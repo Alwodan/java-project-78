@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-public abstract class Schema {
+public abstract class BaseSchema {
+    protected Predicate<Object> init;
     private final List<Predicate<Object>> requirements = new ArrayList<>();
 
     abstract void required();
@@ -22,7 +23,7 @@ public abstract class Schema {
         requirements.add(req);
     }
 
-    protected void removeAllPredicates() {
-        requirements.clear();
+    protected void removeInitReq() {
+        requirements.remove(init);
     }
 }

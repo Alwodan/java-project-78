@@ -1,5 +1,6 @@
 package hexlet.code;
 
+import hexlet.code.Schemes.NumberSchema;
 import hexlet.code.Schemes.StringSchema;
 import org.junit.jupiter.api.Test;
 
@@ -39,9 +40,39 @@ public class ValidatorTest {
 
         assertThat(schema.isValid("this TARGET is bloated now")).isTrue();
         assertThat(schema.isValid("this schema is bloated now")).isFalse();
+    }
+
+    @Test
+    void testNumberSchema() {
+        Validator v = new Validator();
+        NumberSchema schema = v.number();
+
+        assertThat(schema.isValid(null)).isTrue();
+        assertThat(schema.isValid("5")).isFalse();
+
+        schema.positive();
+
+        assertThat(schema.isValid(null)).isTrue();
+        assertThat(schema.isValid(-1)).isFalse();
+        assertThat(schema.isValid(1)).isTrue();
 
         schema.required();
 
-        assertThat(schema.isValid("resets")).isTrue();
+        assertThat(schema.isValid(null)).isFalse();
+        assertThat(schema.isValid(10)).isTrue();
+        assertThat(schema.isValid(-10)).isFalse();
+        assertThat(schema.isValid(0)).isFalse();
+
+        schema.range(5, 10);
+
+        assertThat(schema.isValid(5)).isTrue();
+        assertThat(schema.isValid(10)).isTrue();
+        assertThat(schema.isValid(4)).isFalse();
+        assertThat(schema.isValid(11)).isFalse();
+
+        schema.range(7, 12);
+
+        assertThat(schema.isValid(10)).isTrue();
+        assertThat(schema.isValid(11)).isFalse();
     }
 }
