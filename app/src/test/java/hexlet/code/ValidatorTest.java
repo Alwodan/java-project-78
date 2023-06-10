@@ -42,6 +42,9 @@ public class ValidatorTest {
 
         assertThat(schema.isValid("this TARGET is bloated now")).isTrue();
         assertThat(schema.isValid("this schema is bloated now")).isFalse();
+
+        assertThat(schema.required().required().isValid("this TARGET is bloated now")).isTrue();
+        assertThat(schema.required().required().minLength(3).isValid("this schema is bloated now")).isFalse();
     }
 
     @Test
