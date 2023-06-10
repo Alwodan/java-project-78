@@ -8,20 +8,23 @@ public class NumberSchema extends BaseSchema {
         addRequirement(init);
     }
     @Override
-    public void required() {
+    public NumberSchema required() {
         Predicate<Object> newReq = o -> o instanceof Integer;
         removeInitReq();
         addRequirement(newReq);
+        return this;
     }
 
-    public void positive() {
+    public NumberSchema positive() {
         Predicate<Object> newReq = o -> o == null || (Integer) o > 0;
         addRequirement(newReq);
+        return this;
     }
 
-    public void range(int n1, int n2) {
+    public NumberSchema range(int n1, int n2) {
         Predicate<Object> newReq = o -> isInRange(n1, n2, (Integer) o);
         addRequirement(newReq);
+        return this;
     }
 
     private boolean isInRange(int floor, int ceil, int target) {

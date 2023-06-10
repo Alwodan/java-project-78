@@ -8,19 +8,22 @@ public class StringSchema extends BaseSchema {
         addRequirement(init);
     }
     @Override
-    public void required() {
+    public StringSchema required() {
         Predicate<Object> newReq = o -> o instanceof String && !((String) o).isEmpty();
         removeInitReq();
         addRequirement(newReq);
+        return this;
     }
 
-    public void contains(String str) {
+    public StringSchema contains(String str) {
         Predicate<Object> newReq = o -> ((String) o).contains(str);
         addRequirement(newReq);
+        return this;
     }
 
-    public void minLength(int num) {
+    public StringSchema minLength(int num) {
         Predicate<Object> newReq = o -> o.toString().length() >= num;
         addRequirement(newReq);
+        return this;
     }
 }

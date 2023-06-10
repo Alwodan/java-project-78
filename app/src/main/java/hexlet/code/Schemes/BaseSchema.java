@@ -8,7 +8,7 @@ public abstract class BaseSchema {
     protected Predicate<Object> init;
     private final List<Predicate<Object>> requirements = new ArrayList<>();
 
-    abstract void required();
+    abstract BaseSchema required();
 
     public boolean isValid(Object obj) {
         for (Predicate<Object> req : requirements) {
