@@ -1,9 +1,9 @@
 package hexlet.code;
 
-import hexlet.code.Schemes.BaseSchema;
-import hexlet.code.Schemes.MapSchema;
-import hexlet.code.Schemes.NumberSchema;
-import hexlet.code.Schemes.StringSchema;
+import hexlet.code.schemas.BaseSchema;
+import hexlet.code.schemas.MapSchema;
+import hexlet.code.schemas.NumberSchema;
+import hexlet.code.schemas.StringSchema;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -127,12 +127,12 @@ public class ValidatorTest {
         Map<String, Object> human3 = new HashMap<>();
         human2.put("name", "");
         human2.put("age", null);
-        assertThat(schema.isValid(human2)).isFalse();
+        assertThat(schema.isValid(human3)).isFalse();
 
         Map<String, Object> human4 = new HashMap<>();
         human2.put("name", "Valya");
         human2.put("age", -5);
-        assertThat(schema.isValid(human2)).isFalse();
+        assertThat(schema.isValid(human4)).isFalse();
 
         assertThat(schema.isValid(1)).isFalse();
     }
