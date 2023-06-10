@@ -16,13 +16,13 @@ public class NumberSchema extends BaseSchema {
     }
 
     public NumberSchema positive() {
-        Predicate<Object> newReq = o -> o == null || (Integer) o > 0;
+        Predicate<Object> newReq = o -> o == null || o instanceof Integer && (Integer) o > 0;
         addRequirement(newReq);
         return this;
     }
 
     public NumberSchema range(int n1, int n2) {
-        Predicate<Object> newReq = o -> isInRange(n1, n2, (Integer) o);
+        Predicate<Object> newReq = o -> o instanceof Integer && isInRange(n1, n2, (Integer) o);
         addRequirement(newReq);
         return this;
     }
