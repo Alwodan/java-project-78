@@ -40,11 +40,10 @@ public class ValidatorTest {
 
         schema.contains("bloated");
 
-        assertThat(schema.isValid("this TARGET is bloated now")).isTrue();
-        assertThat(schema.isValid("this schema is bloated now")).isFalse();
+        assertThat(schema.isValid("this TARGET scheme is now reassigned")).isFalse();
+        assertThat(schema.isValid("this schema cannot be bloated")).isTrue();
 
-        assertThat(schema.required().required().isValid("this TARGET is bloated now")).isTrue();
-        assertThat(schema.required().required().minLength(3).isValid("this schema is bloated now")).isFalse();
+        assertThat(schema.isValid(12435)).isFalse();
     }
 
     @Test
@@ -59,6 +58,7 @@ public class ValidatorTest {
 
         assertThat(schema.isValid(null)).isTrue();
         assertThat(schema.isValid(-1)).isFalse();
+        assertThat(schema.isValid("5")).isFalse();
         assertThat(schema.isValid(1)).isTrue();
 
         schema.required();
@@ -78,7 +78,9 @@ public class ValidatorTest {
         schema.range(7, 12);
 
         assertThat(schema.isValid(10)).isTrue();
-        assertThat(schema.isValid(11)).isFalse();
+        assertThat(schema.isValid(11)).isTrue();
+
+        assertThat(schema.isValid("TEN")).isFalse();
     }
 
     @Test

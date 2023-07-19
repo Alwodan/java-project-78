@@ -4,44 +4,33 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 public final class MapSchema extends BaseSchema {
-    private Predicate<Object> currentSizePredicate;
-    private Predicate<Object> currentShapePredicate;
-    {
-        init = o -> o == null || o instanceof Map<?, ?>;
-        addRequirement(init);
+
+    public MapSchema() {
+        Predicate<Object> init = o -> o instanceof Map<?, ?>;
+        addRequirement(SchemaName.INITIAL, init);
     }
-    @Override
+
     public MapSchema required() {
-        Predicate<Object> newReq = o -> o instanceof Map;
-        removeInitReq();
-        addRequirement(newReq);
+        required = true;
         return this;
     }
 
-    public MapSchema sizeof(int n) {
-        removeSpecifiedReq(currentSizePredicate);
-        currentSizePredicate = o -> o instanceof Map && ((Map<?, ?>) o).size() == n;
-        addRequirement(currentSizePredicate);
+    public MapSchema sizeof(int size) {
+        Predicate<Object> currentSizePredicate = o -> ((Map<?, ?>) o).size() == size;
+        addRequirement(SchemaName.SIZE_OF, currentSizePredicate);
         return this;
     }
 
     public MapSchema shape(Map<String, BaseSchema> schemeMap) {
-        removeSpecifiedReq(currentShapePredicate);
-        currentShapePredicate = target -> {
-            if (target instanceof Map<?, ?>) { //So compiler won't cry
-                for (Map.Entry<String, BaseSchema> entry : schemeMap.entrySet()) {
-                    String schemaKey = entry.getKey();
-                    Object valueToCheck = ((Map<?, ?>) target).get(schemaKey);
-                    if (!entry.getValue().isValid(valueToCheck)) {
-                        return false;
-                    }
-                }
-            } else {
-                return false;
-            }
-            return true;
-        };
-        addRequirement(currentShapePredicate);
+        Predicate<Object> currentShapePredicate = o -> schemeMap
+                .entrySet()
+                .stream()
+                .allMatch(entry -> {
+                    Object valueToCheck = ((Map<?, ?>) o).get(entry.getKey());
+                    return entry.getValue().isValid(valueToCheck);
+                });
+
+        addRequirement(SchemaName.SHAPE, currentShapePredicate);
         return this;
     }
 }

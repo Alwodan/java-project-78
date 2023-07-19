@@ -3,27 +3,26 @@ package hexlet.code.schemas;
 import java.util.function.Predicate;
 
 public final class NumberSchema extends BaseSchema {
-    {
-        init = o -> o == null || o instanceof Number;
-        addRequirement(init);
+
+    public NumberSchema() {
+        Predicate<Object> init = o -> o instanceof Number;
+        addRequirement(SchemaName.INITIAL, init);
     }
-    @Override
+
     public NumberSchema required() {
-        Predicate<Object> newReq = o -> o instanceof Integer;
-        removeInitReq();
-        addRequirement(newReq);
+        required = true;
         return this;
     }
 
     public NumberSchema positive() {
-        Predicate<Object> newReq = o -> o == null || o instanceof Integer && (Integer) o > 0;
-        addRequirement(newReq);
+        Predicate<Object> newReq = o -> (Integer) o > 0;
+        addRequirement(SchemaName.POSITIVE, newReq);
         return this;
     }
 
     public NumberSchema range(int n1, int n2) {
-        Predicate<Object> newReq = o -> o instanceof Integer && isInRange(n1, n2, (Integer) o);
-        addRequirement(newReq);
+        Predicate<Object> newReq = o -> isInRange(n1, n2, (Integer) o);
+        addRequirement(SchemaName.RANGE, newReq);
         return this;
     }
 

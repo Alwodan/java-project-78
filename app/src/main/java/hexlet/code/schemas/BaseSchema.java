@@ -1,17 +1,18 @@
 package hexlet.code.schemas;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.function.Predicate;
 
 public abstract class BaseSchema {
-    protected Predicate<Object> init;
-    private final List<Predicate<Object>> requirements = new ArrayList<>();
-
-    abstract BaseSchema required();
+    private final Map<SchemaName, Predicate<Object>> requirements = new LinkedHashMap<>();
+    protected boolean required = false;
 
     public final boolean isValid(Object obj) {
-        for (Predicate<Object> req : requirements) {
+        if (!required && obj == null) {
+            return true;
+        }
+        for (Predicate<Object> req : requirements.values()) {
             if (!req.test(obj)) {
                 return false;
             }
@@ -19,15 +20,7 @@ public abstract class BaseSchema {
         return true;
     }
 
-    protected final void addRequirement(Predicate<Object> req) {
-        requirements.add(req);
-    }
-
-    protected final void removeInitReq() {
-        requirements.remove(init);
-    }
-
-    protected final void removeSpecifiedReq(Predicate<Object> req) {
-        requirements.remove(req);
+    protected final void addRequirement(SchemaName name, Predicate<Object> req) {
+        requirements.put(name, req);
     }
 }
